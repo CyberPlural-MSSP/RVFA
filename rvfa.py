@@ -62,8 +62,11 @@ def demo_209_register():
 
   data['password'] = hashlib.md5(data['password'].encode('utf-8')).digest()
 
-  stmt = sqlalchemy.insert(User).values(**data)
-  db.session.execute(stmt)
-  db.session.commit()
+  try:
+    stmt = sqlalchemy.insert(User).values(**data)
+    db.session.execute(stmt)
+    db.session.commit()
+  except sqlalchemy.exc.IntegrityError:
+    return {'error': 'User already exists'}
 
   return {'success': 'Registration successfull'}
