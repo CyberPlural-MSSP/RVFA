@@ -1,0 +1,47 @@
+{% extends 'pages/base.html' %}
+
+{% block content %}
+  <script>
+    const statusDisplay = function () {
+      return ({error, success}) => `<div class="width">${error ? `<p class="danger">${error}</p>` : success ? `<p class="success">${success}</p>` : ""}</div>`;
+    }
+    customElements.define("rvfa-status-display", statefulFunctionWidget(statusDisplay));
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      var formData = new FormData(e.target);
+      var status = document.getElementById("status");
+
+      console.log(formData, e.target, formData.get("username"));
+
+      fetch("/demo/CWE-209/register", {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({email: formData.get("email"), username: formData.get("username"), password: formData.get('password')})
+      }).then(r => r.json()).then(({success, error}) => {
+        status.setState({
+          success,
+          error
+        })
+
+        if (success) location.replace('/pages/home')
+      }).catch(() => status.setState({error: 'An unknown error occurred'}));
+      
+      return false;
+    }
+  </script>
+
+  <form method="post" onsubmit="return handleSubmit(event)">
+    <label for="email">Email</label>
+    <input name="email" id="email" required />
+    <label for="username">Username</label>
+    <input name="username" id="username" required />
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required />
+    <rvfa-status-display id="status">
+    </rvfa-status-display>
+    <input type="submit" value="Register" />
+  </form>
+{% endblock %}

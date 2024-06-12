@@ -1,9 +1,9 @@
-{% extends 'demos/base.html' %}
+{% extends 'pages/base.html' %}
 
 {% block content %}
   <script>
     const statusDisplay = function () {
-      return ({error, success}) => `<div class="w-full h-8">${error ? `<p class="text-rose-600 font-bold">${error}</p>` : success ? `<p class="text-emerald-400 font-bold">${success}</p>` : ""}</div>`;
+      return ({error, success}) => `<div class="width">${error ? `<p class="danger">${error}</p>` : success ? `<p class="success">${success}</p>` : ""}</div>`;
     }
     customElements.define("rvfa-status-display", statefulFunctionWidget(statusDisplay));
 
@@ -14,7 +14,7 @@
 
       console.log(formData, e.target, formData.get("username"));
 
-      fetch("/demo/CWE-209", {
+      fetch("/demo/CWE-209/login", {
         method: 'POST',
         headers: {
           'Content-type': 'application/json'
@@ -25,7 +25,9 @@
           success,
           error
         })
-      });
+
+        if (success) location.replace('/pages/home')
+      }).catch(() => status.setState({error: 'An unknown error occurred'}));
       
       return false;
     }
@@ -38,6 +40,6 @@
     <input type="password" name="password" id="password" required />
     <rvfa-status-display id="status">
     </rvfa-status-display>
-    <input type="submit" value="Register" />
+    <input type="submit" value="Login" />
   </form>
 {% endblock %}

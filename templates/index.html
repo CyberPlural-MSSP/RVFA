@@ -5,10 +5,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RVFA: Really Vulnerable Fin-tech App</title>
-    <link
-      rel="stylesheet"
-      href="{{url_for('static', filename='css/style.css')}}"
-    />
     <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
     <script src="https://unpkg.com/widgetsjs@0.4.0/dist/web/index.js"></script>
   </head>
@@ -35,7 +31,7 @@
       <div class="items-center">
         <ul class="font-bold">
           {% for k in DEMOS.keys() %}
-            <li><a href="/demo/{{ k }}">{{ k }}: {{ DEMOS[k]['name'] }}</a></div>
+            <li><a href="/pages/{{ k }}">{{k.upper()}} - {{ DEMOS[k]['CWE'] }}: {{ DEMOS[k]['name'] }}</a></li>
           {% endfor %}
         </ul>
       </div>
