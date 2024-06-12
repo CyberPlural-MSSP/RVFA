@@ -1,0 +1,43 @@
+{% extends 'demos/base.html' %}
+
+{% block content %}
+  <script>
+    const statusDisplay = function () {
+      return ({error, success}) => `<div class="w-full h-8">${error ? `<p class="text-rose-600 font-bold">${error}</p>` : success ? `<p class="text-emerald-400 font-bold">${success}</p>` : ""}</div>`;
+    }
+    customElements.define("rvfa-status-display", statefulFunctionWidget(statusDisplay));
+
+    function handleSubmit(e) {
+      e.preventDefault();
+      var formData = new FormData(e.target);
+      var status = document.getElementById("status");
+
+      console.log(formData, e.target, formData.get("username"));
+
+      fetch("/demo/CWE-209", {
+        method: 'POST',
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify({username: formData.get("username"), password: formData.get('password')})
+      }).then(r => r.json()).then(({success, error}) => {
+        status.setState({
+          success,
+          error
+        })
+      });
+      
+      return false;
+    }
+  </script>
+
+  <form method="post" onsubmit="return handleSubmit(event)">
+    <label for="username">Username</label>
+    <input name="username" id="username" required />
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" required />
+    <rvfa-status-display id="status">
+    </rvfa-status-display>
+    <input type="submit" value="Register" />
+  </form>
+{% endblock %}

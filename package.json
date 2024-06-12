@@ -1,0 +1,16 @@
+{
+  "name": "rvfa",
+  "version": "1.0.0",
+  "description": "RVFA (Really Vulnerable Fin-Tech Application) is a collection of what not to do when you make a fin-tech app",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "tailwind": "npx tailwindcss -i ./styles/input.css -o ./static/css/style.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.4.4"
+  }
+}

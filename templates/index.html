@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RVFA: Really Vulnerable Fin-tech App</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <script src="https://unpkg.com/widgetsjs@0.4.0/dist/web/index.js"></script>
+  </head>
+  <body>
+    <section class="container text-center w-full mx-auto mt-12">
+      <h1 class="text-4xl font-bold my-4">Welcome to the RVFA</h1>
+
+      <h3 class="rvfa-home-heading">
+        The RVFA is a demo app designed to be
+        vulnerable to certain attacks in an attempt
+        to demo what current Fin-Tech application
+        security looks like in Nigeria.
+      </h3>
+      <h3 class="rvfa-home-heading">
+        By simulating these vulnerabilities in a
+        controlled environment, we aim to provide
+        valuable insights and learning opportunities
+        for fintech organizations to strengthen their
+        security posture.
+      </h3>
+
+      <h1 class="text-2xl font-bold my-4">Get Started</h1>
+
+      <div class="items-center">
+        <ul class="font-bold">
+          {% for k in DEMOS.keys() %}
+            <li><a href="/demo/{{ k }}">{{ k }}: {{ DEMOS[k]['name'] }}</a></div>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  </body>
+</html>

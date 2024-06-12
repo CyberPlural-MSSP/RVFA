@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RVFA: Really Vulnerable Fin-tech App</title>
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/style.css')}}"
+    />
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <script src="https://unpkg.com/widgetsjs@0.4.0/dist/web/index.js"></script>
+  </head>
+  <body>
+    <nav class="w-full">
+      <div class="flex w-full">
+        <h1 class="text-3xl font-bold w-[10%] text-center"><a href="/">RVFA</a></h1>
+        <h1 class="text-3xl font-bold w-full text-center mt-6">{{ title }}</h1>
+      </div>
+    </nav>
+    <section class="container text-center w-full mx-auto mt-12">
+      <h1 class="text-4xl font-bold my-4">{{ name }}</h1>
+      <h3 class="rvfa-home-heading">{{ description }}</h3>
+      {% block content %}{% endblock %}
+    </section>
+  </body>
+</html>
