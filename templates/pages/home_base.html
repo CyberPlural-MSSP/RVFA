@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" style="height: 100vh;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0" />
+    <title>RVFA: Really Vulnerable Fin-tech App</title>
+    <link rel="stylesheet" href="https://matcha.mizu.sh/matcha.css">
+    <script src="https://unpkg.com/widgetsjs@0.4.0/dist/web/index.js"></script>
+  </head>
+  <body class="layout-simple height">
+    <header>
+      <nav class="width">
+        <div class="flex row width space-between">
+          <a class="p-0 m-0" href="/"><h2 class="p-0 m-0">RVFA</h2></a>
+          <h1 class="p-1" style="text-decoration: none !important;">HOME</h1>
+          <h1>&</h1>
+        </div>
+      </nav>
+    </header>
+    <aside class="height">
+      <h1 class="pl-1">{{ USER.username.upper() }}</h1>
+      <nav class="pl-1">
+        <ul>
+          <li><a href="/pages/home">Home</a></li>
+          <li><a href="/pages/home/txs">Transactions</a></li>
+          <li><a href="/pages/home/accounts">Accounts</a></li>
+        </ul>
+      </nav>
+    </aside>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>

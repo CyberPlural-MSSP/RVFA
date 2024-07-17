@@ -1,15 +1,11 @@
-from flask import Flask, render_template, request
-from database import db, User, sqlalchemy
+from flask import render_template, request, session
+from database import User, Wallet, Transaction, db
+from app import app
+from auth import authenticate
+import sqlalchemy
 
+import uuid
 import hashlib
-
-app = Flask(__name__)
-
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///rvfa.db"
-db.init_app(app)
-
-with app.app_context():
-  db.create_all()
 
 DEMOS = {
   'login': {
@@ -32,6 +28,16 @@ DEMOS = {
 def index():
   return render_template("index.html", DEMOS = DEMOS)
 
+@app.route("/pages/home")
+def home():
+  if not '_id' in session:
+    return app.redirect("/")
+  
+  query = sqlalchemy.select(User).where(User.id == int(session["_id"]))
+  user, = db.session.execute(query).first().tuple()
+
+  return render_template("pages/home.html", USER = user)
+
 @app.route("/pages/<name>")
 def demo(name: str):
   if not name in DEMOS:
@@ -51,8 +57,9 @@ def demo_209_login():
     return {'error': 'User not found'}
   else:
     user_obj, = user.tuple()
-    print(user_obj.password)
+
     if hashlib.md5(data['password'].encode('utf-8')).digest() == user_obj.password:
+      session['_id'] = user_obj.id
       return {'success': 'Yay! Valid Credentails!!'}
     return {'error': 'Incorrect Password'}
   
@@ -66,7 +73,27 @@ def demo_209_register():
     stmt = sqlalchemy.insert(User).values(**data)
     db.session.execute(stmt)
     db.session.commit()
+
+    query = sqlalchemy.select(User).where(User.username == data['username'])
+    user = db.session.execute(query).first()
+
+    user_obj, = user.tuple()
+
+    session['_id'] = user_obj.id
   except sqlalchemy.exc.IntegrityError:
     return {'error': 'User already exists'}
 
   return {'success': 'Registration successfull'}
+
+@app.post('/demo/cwe-287/transaction')
+def demo_287_transaction():
+  data = request.json
+
+  if "_id" not in session or data is None:
+    return app.redirect('/')
+  
+  user_id = int(session["_id"])
+  reference = uuid.uuid4().__str__()
+
+  stmt = sqlalchemy.insert(Transaction).values(reference=reference)
+  
